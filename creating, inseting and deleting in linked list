@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node{
+    int data;
+    struct Node *next;
+}*first=NULL;
+void create (int a[], int n){
+    int i;
+    struct Node *t,*last;
+    first=(struct Node *)malloc (sizeof( struct Node));
+    first->data=a[0];
+    first->next=NULL;
+    last=first;
+    for(i=1;i<n;i++){
+        t=(struct Node *)malloc(sizeof(struct Node));
+        t->data=a[i];
+        t->next=NULL;
+        last->next=t;
+        last=t;
+    }
+}
+void Display(struct Node *p){
+    while(p!=NULL){
+        printf("%d ", p->data);
+        p=p->next;
+    }
+}
+void insert(int pos, int num, struct Node *p){
+    struct Node *s=(struct Node *)malloc(sizeof(struct Node));
+    if(pos==0){
+        s->data=num;
+        s->next=first;
+        first=s;
+    }
+    else if(pos>0){
+    p=first;
+    for(int i=0;i<pos-1&&p;i++){
+        p=p->next;
+    }
+    if(p){
+        s->data=num;
+    s->next=p->next;
+    p->next=s;}}
+}
+void delete(int pos, struct Node *p){
+    struct Node *t=first;
+    if(pos==1){
+        first=first->next;
+        int x=t->data;
+        free(t);
+
+    }
+    else if(pos>0){
+      struct Node *x,*y;
+      x=first;
+      y=NULL;
+      for(int i=0;i<pos-1;i++){
+
+          y=x;
+          x=x->next;
+      }
+      y->next=x->next;
+      free(x);
+    }
+}
+
+
+int main(){
+    int n,a[50], c;
+   printf("Enter the number of elements: ");
+   scanf("%d", &n);
+   printf("Enter the elements: ");
+   for(int i=0;i<n;i++){
+       scanf("%d", &a[i]);
+   }
+   for(int j=0;j<n;j++){
+       printf("%d ", a[j]);
+   }
+
+    create(a,n);
+    printf("\nEnter 1 to insert an element\nEnter 2 to delete an element");
+    scanf("%d", &c);
+    if(c==1){
+        int pos, num;
+        printf("Enter the position after which you want to insert an element: ");
+        scanf("%d", &pos);
+        printf("Enter the element you want to insert: ");
+        scanf("%d", &num);
+    insert(pos,num,first);}
+    else if(c==2){
+        int pos;
+    printf("Enter the position whose element you want to delete: ");
+    scanf("%d", &pos);
+    delete(pos,first);}
+    Display(first);
+    return 0;
+}
